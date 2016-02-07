@@ -1,0 +1,48 @@
+<div class='container'>
+  {{discourse-banner user=currentUser banner=site.banner}}
+</div>
+
+<div class='list-controls'>
+  <div class="container">
+    {{outlet "navigation-bar"}}
+  </div>
+</div>
+
+{{conditional-loading-spinner condition=loading}}
+
+<div {{bind-attr class=":container :list-container loading:hidden siteSettings.enable_sidebar:with-sidebar"}}>
+  <div class="row">
+    <div class="full-width">
+      <div id='header-list-area'>
+        {{outlet "header-list-container"}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="full-width">
+      <div id='list-area'>
+        {{plugin-outlet "discovery-list-container-top"}}
+        {{outlet "list-container"}}
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#if siteSettings.enable_sidebar}}
+  <div class='sidebar'>
+    {{{siteSettings.sidebar_content}}}
+
+    {{#if siteSettings.enable_solution_widget}}
+      {{#if solved_answer}}
+        <div class="solutions-container">
+          <div class="sidebar-title">Most Recent Solutions</div>
+          <div class="solutions-body">
+            {{{solved_answer}}}
+            <span class="more_solutions"><a href="https://community.wd.com/search?q=in%3Asolved" target="_blank">Click for more solutions.</a></span>
+          </div>
+        </div>
+      {{/if}}
+    {{/if}}
+  </div>
+
+{{/if}}
